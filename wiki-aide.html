@@ -1,0 +1,910 @@
+<!-- =====================================================================
+     WIKI BUTIICRAFT — tout le contenu du /aide
+     Bloc autonome : copie-colle TOUT ce fichier dans un bloc « HTML »
+     de ta page. Les styles sont limités à #bc-wiki : ils ne touchent
+     pas au reste du site. Le petit script en bas (recherche + copie
+     des commandes) est facultatif : sans lui, la page marche quand même.
+     ===================================================================== -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rubik:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+#bc-wiki{
+  --fond:#0b0d14; --fond2:#12151f; --carte:#161a26; --bord:#262b3b;
+  --texte:#d9dce6; --gris:#8a90a3; --blanc:#ffffff;
+  --mc-a:#55FF55; --mc-6:#FFAA00; --mc-d:#FF55FF; --mc-e:#FFFF55; --mc-b:#55FFFF;
+  --mc-2:#00C800; --mc-c:#FF5555; --mc-3:#1FC7C7; --mc-9:#7B7BFF; --mc-5:#C040C0;
+  font-family:'Rubik',system-ui,sans-serif; color:var(--texte); background:var(--fond);
+  line-height:1.65; font-size:16px; text-align:left;
+  width:100vw; position:relative; left:50%; margin-left:-50vw; margin-top:0; margin-bottom:0;
+}
+/* le fond de toute la page passe en sombre : plus de bandes blanches sur les côtés */
+body{background:#0b0d14 !important; overflow-x:hidden}
+#bc-wiki .page,#bc-wiki .pied,#bc-wiki .fin{max-width:1240px; margin-left:auto; margin-right:auto}
+#bc-wiki *{box-sizing:border-box}
+#bc-wiki h1,#bc-wiki h2,#bc-wiki h3,#bc-wiki h4{margin:0;font-weight:400;line-height:1.1;color:var(--blanc)}
+#bc-wiki p{margin:0}
+#bc-wiki a{color:inherit;text-decoration:none}
+#bc-wiki table{color:var(--texte)}
+
+/* ---------- En-tête ---------- */
+#bc-wiki .hero{
+  position:relative; padding:64px 28px 48px; text-align:center; overflow:hidden;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255,85,255,.22), transparent 45%),
+    radial-gradient(circle at 85% 30%, rgba(85,255,255,.18), transparent 45%),
+    radial-gradient(circle at 50% 110%, rgba(255,170,0,.20), transparent 50%),
+    linear-gradient(180deg,#141828,#0b0d14);
+  border-bottom:1px solid var(--bord);
+}
+#bc-wiki .hero::before{
+  content:""; position:absolute; inset:0; opacity:.07; pointer-events:none;
+  background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);
+  background-size:32px 32px;
+}
+#bc-wiki .badge{display:inline-block; padding:6px 14px; border-radius:99px; font-size:13px; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--mc-e);
+  background:rgba(255,255,85,.08); border:1px solid rgba(255,255,85,.3); margin-bottom:18px}
+#bc-wiki .hero h1{font-family:'Bebas Neue',sans-serif; font-size:clamp(46px,9vw,96px); letter-spacing:.04em;
+  background:linear-gradient(90deg,var(--mc-6),var(--mc-e) 35%,var(--mc-d) 70%,var(--mc-b));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 4px 24px rgba(255,170,0,.25))}
+#bc-wiki .hero .sous{font-size:clamp(16px,2.4vw,20px); margin:12px auto 0; max-width:640px}
+#bc-wiki .hero .sous code{font-family:'JetBrains Mono',monospace; color:var(--mc-a); background:rgba(85,255,85,.1); padding:2px 8px; border-radius:6px}
+#bc-wiki .chiffres{display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:28px}
+#bc-wiki .chiffre{background:rgba(255,255,255,.04); border:1px solid var(--bord); border-radius:12px; padding:10px 18px; min-width:120px}
+#bc-wiki .chiffre b{display:block; font-family:'Bebas Neue',sans-serif; font-size:30px; color:var(--blanc); letter-spacing:.04em; line-height:1}
+#bc-wiki .chiffre span{font-size:13px; color:var(--gris)}
+
+/* ---------- Mise en page wiki : catégories à gauche, fiches à droite ---------- */
+#bc-wiki .page{display:grid; grid-template-columns:270px 1fr; gap:28px; padding:28px 24px 40px; align-items:start}
+#bc-wiki .menu{position:sticky; top:16px; max-height:calc(100vh - 32px); overflow:auto;
+  background:var(--fond2); border:1px solid var(--bord); border-radius:16px; padding:16px 12px}
+#bc-wiki .menu > summary{list-style:none; cursor:default; font-family:'Bebas Neue',sans-serif; font-size:24px;
+  letter-spacing:.06em; color:var(--blanc); padding:0 8px 10px}
+#bc-wiki .menu > summary::-webkit-details-marker{display:none}
+#bc-wiki .recherche{display:none; width:100%; margin:0 0 12px; padding:10px 12px 10px 38px; border-radius:10px;
+  border:1px solid var(--bord); color:var(--blanc); font:inherit; font-size:14px; outline:none;
+  background:var(--fond) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%238a90a3' stroke-width='2'%3E%3Ccircle cx='7' cy='7' r='5'/%3E%3Cpath d='m11 11 4 4'/%3E%3C/svg%3E") 13px center no-repeat}
+#bc-wiki .recherche:focus{border-color:var(--mc-e)}
+#bc-wiki.js .recherche{display:block}
+#bc-wiki .groupe{font-size:11.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--gris); padding:14px 8px 6px}
+#bc-wiki .menu a{display:flex; align-items:center; gap:10px; padding:7px 10px; border-radius:9px; font-size:14.5px; font-weight:500; transition:.15s}
+#bc-wiki .menu a .e{width:22px; text-align:center}
+#bc-wiki .menu a:hover{background:rgba(255,255,255,.06); color:var(--blanc)}
+#bc-wiki .menu a.regl{margin-top:6px; border:1px solid rgba(255,85,85,.35); color:#ff8a8a}
+
+#bc-wiki .titre-groupe{display:flex; align-items:center; gap:12px; margin:8px 0 18px; padding-bottom:12px; border-bottom:1px solid var(--bord)}
+#bc-wiki .titre-groupe h2{font-family:'Bebas Neue',sans-serif; font-size:34px; letter-spacing:.06em}
+#bc-wiki .titre-groupe span{font-size:26px}
+#bc-wiki .bloc-groupe + .bloc-groupe{margin-top:44px}
+
+/* ---------- Fiche d'une catégorie ---------- */
+#bc-wiki .fiche{position:relative; background:var(--carte); border:1px solid var(--bord); border-left:4px solid var(--c);
+  border-radius:16px; padding:24px 26px; margin-bottom:18px; scroll-margin-top:20px; overflow:hidden}
+#bc-wiki .fiche::after{content:""; position:absolute; right:-70px; top:-70px; width:190px; height:190px; border-radius:50%;
+  background:var(--c); opacity:.06; pointer-events:none}
+#bc-wiki .fiche:target{box-shadow:0 0 0 2px var(--c), 0 12px 40px -14px var(--c)}
+#bc-wiki .fiche .tete{display:flex; align-items:center; gap:16px; margin-bottom:16px}
+#bc-wiki .fiche .ico{flex:none; width:56px; height:56px; border-radius:14px; display:grid; place-items:center; font-size:28px;
+  background:rgba(255,255,255,.04); border:1px solid var(--bord)}
+#bc-wiki .fiche h3{font-family:'Bebas Neue',sans-serif; font-size:34px; letter-spacing:.05em; color:var(--c)}
+#bc-wiki .fiche .tag{display:inline-block; margin-top:4px; font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gris)}
+#bc-wiki .fiche h4{font-size:12.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--gris); margin:18px 0 8px}
+#bc-wiki .fiche .desc{font-size:16.5px; color:var(--texte)}
+#bc-wiki .fiche ul,#bc-wiki .fiche ol{margin:0; padding:0; list-style:none}
+#bc-wiki .fiche li{position:relative; padding:4px 0 4px 24px}
+#bc-wiki .fiche ul li::before{content:"▸"; position:absolute; left:5px; color:var(--c)}
+#bc-wiki .fiche ol{counter-reset:n}
+#bc-wiki .fiche ol li{counter-increment:n}
+#bc-wiki .fiche ol li::before{content:counter(n); position:absolute; left:0; top:7px; width:17px; height:17px; border-radius:5px;
+  background:var(--c); color:#0b0d14; font-size:11px; font-weight:700; display:grid; place-items:center; line-height:1}
+#bc-wiki .astuce{margin-top:16px; font-size:14.5px; padding:11px 14px; border-radius:10px; background:rgba(255,255,255,.035); border-left:3px solid var(--c)}
+#bc-wiki .cmds{display:flex; flex-wrap:wrap; gap:8px}
+#bc-wiki .cmd{display:inline-flex; align-items:center; font-family:'JetBrains Mono',monospace; font-size:13.5px; font-weight:700;
+  padding:5px 11px; border-radius:8px; color:var(--blanc); background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); white-space:nowrap}
+#bc-wiki li .cmd,#bc-wiki p .cmd,#bc-wiki td .cmd{padding:1px 7px; font-size:13px}
+#bc-wiki.js .cmd{cursor:pointer}
+#bc-wiki .cmd:hover{border-color:var(--c, var(--mc-e))}
+#bc-wiki .cmd.copie{background:rgba(85,255,85,.2); border-color:var(--mc-a)}
+#bc-wiki .touche{display:inline-block; white-space:nowrap; font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; min-width:26px;
+  text-align:center; padding:2px 8px; border-radius:6px; background:#2a3045; border-bottom:3px solid #11141d; color:var(--blanc)}
+#bc-wiki table{width:100%; border-collapse:collapse; font-size:15px}
+#bc-wiki td{padding:7px 0; border-bottom:1px dashed var(--bord); vertical-align:middle}
+#bc-wiki td:first-child{width:1%; padding-right:16px; white-space:nowrap}
+#bc-wiki tr:last-child td{border-bottom:0}
+
+/* ---------- Règlement ---------- */
+#bc-wiki .legende{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px}
+#bc-wiki .pastille{font-size:12px; font-weight:700; padding:3px 10px; border-radius:99px; border:1px solid; white-space:nowrap}
+#bc-wiki .g3{color:#ff6b6b; border-color:rgba(255,85,85,.5); background:rgba(255,85,85,.1)}
+#bc-wiki .g2{color:var(--mc-6); border-color:rgba(255,170,0,.5); background:rgba(255,170,0,.1)}
+#bc-wiki .g1{color:var(--mc-e); border-color:rgba(255,255,85,.45); background:rgba(255,255,85,.08)}
+#bc-wiki .regle{background:var(--carte); border:1px solid var(--bord); border-radius:14px; margin-bottom:10px}
+#bc-wiki .regle[open]{border-color:#3a4058}
+#bc-wiki .regle summary{list-style:none; cursor:pointer; padding:14px 16px; display:flex; align-items:center; gap:12px; font-weight:700; color:var(--blanc)}
+#bc-wiki .regle summary::-webkit-details-marker{display:none}
+#bc-wiki .regle summary .e{font-size:22px}
+#bc-wiki .regle summary .nom{flex:1}
+#bc-wiki .regle summary::after{content:"+"; color:var(--gris); font-size:20px; font-weight:400; transition:.2s}
+#bc-wiki .regle[open] summary::after{transform:rotate(45deg)}
+#bc-wiki .detail{padding:0 18px 18px; font-size:15px}
+#bc-wiki .detail ul{margin:8px 0 0; padding:0; list-style:none}
+#bc-wiki .detail ul li{padding:2px 0 2px 20px; position:relative}
+#bc-wiki .detail ul li::before{content:"•"; position:absolute; left:6px; color:var(--gris)}
+#bc-wiki .detail .petit{margin-top:8px; color:var(--gris); font-size:14px}
+#bc-wiki .ok{margin-top:12px; padding:10px 12px; border-radius:10px; background:rgba(85,255,85,.07); border-left:3px solid var(--mc-a)}
+#bc-wiki .ok b{color:var(--mc-a)}
+#bc-wiki .echelle{margin:12px 0 0; padding:0; list-style:none; counter-reset:s}
+#bc-wiki .echelle li{counter-increment:s; padding:6px 10px 6px 70px; margin-top:6px; border-radius:8px; background:rgba(255,85,85,.06); position:relative}
+#bc-wiki .echelle li::before{content:counter(s) "e fois"; position:absolute; left:10px; top:7px; color:#ff8a8a; font-weight:700; font-size:12.5px}
+#bc-wiki .echelle li:first-child::before{content:"1re fois"}
+#bc-wiki .echelle.unique li{padding-left:88px}
+#bc-wiki .echelle.unique li::before{content:"Sanction"}
+
+/* ---------- Pied ---------- */
+#bc-wiki .pied{width:calc(100% - 48px); padding:30px 24px; border-radius:18px; text-align:center;
+  background:linear-gradient(135deg,rgba(255,85,255,.12),rgba(85,255,255,.10)); border:1px solid var(--bord)}
+#bc-wiki .pied h2{font-family:'Bebas Neue',sans-serif; font-size:34px; letter-spacing:.05em}
+#bc-wiki .pied p{color:var(--gris); margin:6px 0 18px}
+#bc-wiki .boutons{display:flex; flex-wrap:wrap; gap:12px; justify-content:center}
+#bc-wiki .bouton{padding:12px 22px; border-radius:12px; font-weight:700; color:#0b0d14; transition:.15s}
+#bc-wiki .bouton:hover{transform:translateY(-2px); filter:brightness(1.1)}
+#bc-wiki .b-discord{background:#5865F2; color:#fff}
+#bc-wiki .b-site{background:var(--mc-b)}
+#bc-wiki .b-vote{background:var(--mc-a)}
+#bc-wiki .fin{text-align:center; color:var(--gris); font-size:13px; padding:24px 16px 28px}
+#bc-wiki .cache{display:none !important}
+#bc-wiki .rien{display:none; text-align:center; color:var(--gris); padding:30px}
+
+/* ---------- Téléphone ---------- */
+@media (max-width:860px){
+  #bc-wiki .page{grid-template-columns:1fr; padding:20px 16px 32px; gap:20px}
+  #bc-wiki .menu{position:static; max-height:none}
+  #bc-wiki .menu > summary{cursor:pointer}
+  #bc-wiki .menu > summary::after{content:" ▾"; color:var(--gris)}
+  #bc-wiki .liens{display:grid; grid-template-columns:1fr 1fr; gap:2px}
+  #bc-wiki .groupe{grid-column:1/-1}
+  #bc-wiki .menu a{font-size:13.5px; padding:6px 8px}
+}
+@media (max-width:480px){
+  #bc-wiki .hero{padding:44px 16px 36px}
+  #bc-wiki .fiche{padding:20px 18px}
+  #bc-wiki .fiche h3{font-size:29px}
+  #bc-wiki .fiche .ico{width:48px; height:48px; font-size:24px}
+  #bc-wiki .cmd{white-space:normal}
+  #bc-wiki .pied{width:calc(100% - 32px)}
+}
+</style>
+
+<div id="bc-wiki">
+
+  <!-- ================= EN-TÊTE ================= -->
+  <header class="hero">
+    <span class="badge">📖 Wiki officiel</span>
+    <h1>Le guide de ButiiCraft</h1>
+    <p class="sous">Tout ce que contient le menu <code>/aide</code> en jeu, rangé par catégorie. Choisis un sujet, lis sa fiche, et tu sais jouer.</p>
+    <div class="chiffres">
+      <div class="chiffre"><b>31</b><span>catégories</span></div>
+      <div class="chiffre"><b>40+</b><span>commandes</span></div>
+      <div class="chiffre"><b>12</b><span>règles claires</span></div>
+    </div>
+  </header>
+
+  <div class="page">
+
+    <!-- ================= LISTE DES CATÉGORIES ================= -->
+    <details class="menu" open>
+      <summary>📚 Catégories</summary>
+      <input class="recherche" type="search" placeholder="Rechercher… (banque, /kit)" aria-label="Rechercher dans le wiki">
+      <div class="liens">
+        <div class="groupe">🚀 Débuter</div>
+        <a href="#bc-demarrer"><span class="e">🗡️</span>Bien démarrer</a>
+        <a href="#bc-telephone"><span class="e">📱</span>Téléphone</a>
+        <a href="#bc-kits"><span class="e">🎁</span>Kits</a>
+        <a href="#bc-warps"><span class="e">🌀</span>Warps</a>
+        <a href="#bc-lieux"><span class="e">🧭</span>Lieux de farm</a>
+        <a href="#bc-voitures"><span class="e">🚗</span>Voitures</a>
+
+        <div class="groupe">💰 Argent</div>
+        <a href="#bc-argent"><span class="e">💵</span>Gagner de l'argent</a>
+        <a href="#bc-bazar"><span class="e">📊</span>Bazar</a>
+        <a href="#bc-commandes"><span class="e">📜</span>Commandes du jour</a>
+        <a href="#bc-boutique"><span class="e">🛒</span>Boutique &amp; caisses</a>
+        <a href="#bc-echanges"><span class="e">🤝</span>Échanges</a>
+
+        <div class="groupe">🔫 Action</div>
+        <a href="#bc-braquages"><span class="e">🏦</span>Braquages</a>
+        <a href="#bc-ravitaillement"><span class="e">📦</span>Ravitaillement</a>
+        <a href="#bc-missions"><span class="e">🎣</span>Missions</a>
+        <a href="#bc-quetes"><span class="e">🏆</span>Quêtes</a>
+
+        <div class="groupe">📈 Progression</div>
+        <a href="#bc-niveaux"><span class="e">⭐</span>Niveaux &amp; pass</a>
+        <a href="#bc-grades"><span class="e">👑</span>Grades</a>
+        <a href="#bc-clans"><span class="e">🛡️</span>Clans</a>
+        <a href="#bc-classements"><span class="e">🥇</span>Classements</a>
+
+        <div class="groupe">🎒 Tes affaires</div>
+        <a href="#bc-stockage"><span class="e">🗄️</span>Stockage</a>
+        <a href="#bc-enderchest"><span class="e">🟪</span>Ender Chest</a>
+        <a href="#bc-appartements"><span class="e">🏠</span>Appartements</a>
+
+        <div class="groupe">✨ Style</div>
+        <a href="#bc-cosmetiques"><span class="e">🎨</span>Cosmétiques</a>
+        <a href="#bc-boitecos"><span class="e">🗝️</span>Boîte cosmétique</a>
+        <a href="#bc-parametres"><span class="e">⚙️</span>Paramètres</a>
+
+        <div class="groupe">💬 Communauté</div>
+        <a href="#bc-staff"><span class="e">🙋</span>Parler au staff</a>
+        <a href="#bc-signaler"><span class="e">🚩</span>Signaler</a>
+        <a href="#bc-vote"><span class="e">🗳️</span>Voter</a>
+        <a href="#bc-site"><span class="e">🌐</span>Site</a>
+        <a href="#bc-discord"><span class="e">🎧</span>Discord</a>
+        <a href="#bc-utiles"><span class="e">🧰</span>Commandes utiles</a>
+
+        <div class="groupe">⚖️ Règles</div>
+        <a class="regl" href="#bc-regles"><span class="e">⚖️</span>Le règlement</a>
+      </div>
+    </details>
+
+    <!-- ================= FICHES ================= -->
+    <main>
+
+      <!-- ===== DÉBUTER ===== -->
+      <div class="bloc-groupe">
+        <div class="titre-groupe"><span>🚀</span><h2>Débuter</h2></div>
+
+        <article class="fiche" id="bc-demarrer" style="--c:var(--mc-a)">
+          <div class="tete"><div class="ico">🗡️</div><div><h3>Bien démarrer</h3><span class="tag">Débuter</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Tu viens d'arriver sur ButiiCraft ? Pas de panique : quatre étapes suffisent pour te lancer.</p>
+          <h4>Les étapes</h4>
+          <ol>
+            <li>Prends un kit avec <span class="cmd">/kit</span></li>
+            <li>Va gagner tes premiers euros (voir <a href="#bc-argent"><b>Gagner de l'argent</b></a>)</li>
+            <li>Achète ton matériel en boutique</li>
+            <li>Trouve un coin et pose ta base</li>
+          </ol>
+        </article>
+
+        <article class="fiche" id="bc-telephone" style="--c:var(--mc-b)">
+          <div class="tete"><div class="ico">📱</div><div><h3>Téléphone</h3><span class="tag">Débuter</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Ton téléphone, c'est ta télécommande du serveur : presque tout passe par lui. Tu l'as toujours sur toi, et il ne se perd pas à la mort.</p>
+          <h4>Ce qu'il contient</h4>
+          <ul>
+            <li>La banque, le spawn, tes stats et ton clan</li>
+            <li>Le menu braquage</li>
+            <li>Le braquage d'appartements</li>
+            <li>La liste des événements</li>
+            <li>Lester, pour effacer la police</li>
+          </ul>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/téléphone</span></div>
+        </article>
+
+        <article class="fiche" id="bc-kits" style="--c:var(--mc-a)">
+          <div class="tete"><div class="ico">🎁</div><div><h3>Kits</h3><span class="tag">Débuter</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Les kits te donnent du matériel à intervalle régulier. C'est le meilleur moyen de t'équiper quand tu débutes.</p>
+          <h4>Comment ça marche</h4>
+          <ul>
+            <li>Certains kits sont <b>gratuits</b></li>
+            <li>D'autres s'achètent en <b style="color:var(--mc-a)">euros</b> ou en <b style="color:var(--mc-b)">cristaux</b></li>
+            <li>Un kit payé peut revenir toutes les X heures, ou se repayer à chaque fois</li>
+            <li>Ton <a href="#bc-grades"><b>grade</b></a> peut débloquer des kits en plus</li>
+          </ul>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/kit</span></div>
+        </article>
+
+        <article class="fiche" id="bc-warps" style="--c:var(--mc-b)">
+          <div class="tete"><div class="ico">🌀</div><div><h3>Warps</h3><span class="tag">Débuter</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Les warps t'emmènent en un clic vers les endroits importants du serveur.</p>
+          <p class="astuce">⏳ Il y a un court délai avant le départ : si tu bouges, la téléportation est annulée.</p>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/warp</span></div>
+        </article>
+
+        <article class="fiche" id="bc-lieux" style="--c:var(--mc-6)">
+          <div class="tete"><div class="ico">🧭</div><div><h3>Lieux de farm</h3><span class="tag">Débuter</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">La Map cache plusieurs zones remplies de coffres à piller. Clique un lieu dans le menu : un GPS t'y guide.</p>
+          <h4>Les lieux</h4>
+          <ul>
+            <li><b>Hangar, bibliothèque, Minekea et musée</b> : en ville ou tout près</li>
+            <li><b>Cinéma, entrepôt et théâtre</b> : plus loin, donc plus tranquilles</li>
+          </ul>
+          <p class="astuce">🗺️ Tous tes GPS en cours (lieux, appartements, missions…) sont réunis dans <span class="cmd">/gps</span>.</p>
+          <h4>Commandes</h4>
+          <div class="cmds"><span class="cmd">/lieux</span><span class="cmd">/gps</span></div>
+        </article>
+
+        <article class="fiche" id="bc-voitures" style="--c:var(--mc-3)">
+          <div class="tete"><div class="ico">🚗</div><div><h3>Voitures</h3><span class="tag">Débuter</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Roule au lieu de marcher ! Passe ton permis chez le concessionnaire, pose ta voiture et monte dedans.</p>
+          <h4>Les touches</h4>
+          <table>
+            <tr><td><span class="touche">Molette</span></td><td>Accélérer / ralentir</td></tr>
+            <tr><td><span class="touche">Q</span></td><td>Freiner</td></tr>
+            <tr><td><span class="touche">F</span></td><td>Marche arrière</td></tr>
+            <tr><td><span class="touche">Souris</span></td><td>Diriger</td></tr>
+            <tr><td><span class="touche">Shift</span></td><td>Descendre</td></tr>
+          </table>
+          <p class="astuce">⚡ Les nitros donnent un coup de boost : <b>mini</b>, <b>moyen</b> et <b>méga</b>.</p>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/permis</span></div>
+        </article>
+      </div>
+
+      <!-- ===== ARGENT ===== -->
+      <div class="bloc-groupe">
+        <div class="titre-groupe"><span>💰</span><h2>Argent &amp; économie</h2></div>
+
+        <article class="fiche" id="bc-argent" style="--c:var(--mc-6)">
+          <div class="tete"><div class="ico">💵</div><div><h3>Gagner de l'argent</h3><span class="tag">Argent</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Il y a plein de façons de remplir ton compte. Combine-les pour aller plus vite.</p>
+          <h4>Les sources d'argent</h4>
+          <ul>
+            <li>Tuer des civils et des mobs</li>
+            <li>Braquer la banque et les appartements (<a href="#bc-braquages"><b>Braquages</b></a>)</li>
+            <li>Vendre au bazar <span class="cmd">/bazar</span></li>
+            <li>Livrer les <a href="#bc-commandes"><b>commandes du jour</b></a></li>
+            <li>Ramasser les <a href="#bc-ravitaillement"><b>ravitaillements</b></a></li>
+            <li>Ouvrir les coffres de farm</li>
+            <li>Accueillir les nouveaux joueurs <span class="cmd">/bvn</span></li>
+            <li>Finir tes quêtes <span class="cmd">/quest</span></li>
+          </ul>
+        </article>
+
+        <article class="fiche" id="bc-bazar" style="--c:var(--mc-e)">
+          <div class="tete"><div class="ico">📊</div><div><h3>Bazar</h3><span class="tag">Argent</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Le bazar est le marché du serveur. Ses prix ne sont pas fixes : ils <b>bougent tout seuls</b> selon ce que les joueurs achètent et vendent.</p>
+          <h4>Comment bougent les prix</h4>
+          <ul>
+            <li>📉 Plus un objet est vendu, plus son prix baisse</li>
+            <li>📈 Plus il est acheté, plus il monte</li>
+            <li>↩️ Sans mouvement, il revient à son prix de base</li>
+          </ul>
+          <p class="astuce">💡 Vendre 30 armes d'un coup rapporte moins que 30 fois le prix affiché : étale tes ventes, ou diversifie.</p>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/bazar</span></div>
+        </article>
+
+        <article class="fiche" id="bc-commandes" style="--c:var(--mc-6)">
+          <div class="tete"><div class="ico">📜</div><div><h3>Commandes du jour</h3><span class="tag">Argent</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Trois marchands changent de place et de demande <b>chaque jour</b>. Ils paient une prime au-dessus du cours, mais la commande est partagée entre tous les joueurs : le premier servi gagne.</p>
+          <h4>Les marchands</h4>
+          <ul>
+            <li>🎣 <b>Le Pêcheur</b> : des poissons</li>
+            <li>💣 <b>Le Mafieux</b> : explosifs, drogues</li>
+            <li>🔫 <b>Le Marchand d'Armes</b> : armes et munitions</li>
+          </ul>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/bazar commandes</span></div>
+        </article>
+
+        <article class="fiche" id="bc-boutique" style="--c:var(--mc-e)">
+          <div class="tete"><div class="ico">🛒</div><div><h3>Boutique &amp; caisses</h3><span class="tag">Argent</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Clefs, armes et objets rares t'attendent en boutique. Les caisses, elles, se tentent avec une clef : une roulette tourne et te donne un lot.</p>
+          <h4>Comment ça marche</h4>
+          <ul>
+            <li>La boutique se paie en <b style="color:var(--mc-b)">cristaux</b> ou en <b style="color:var(--mc-a)">argent</b></li>
+            <li>Les caisses : une clef, une roulette, un lot 🎰</li>
+          </ul>
+          <p class="astuce">⚠️ Le stock de la boutique est limité.</p>
+          <h4>Commandes</h4>
+          <div class="cmds"><span class="cmd">/boutique</span><span class="cmd">/box</span></div>
+        </article>
+
+        <article class="fiche" id="bc-echanges" style="--c:var(--mc-b)">
+          <div class="tete"><div class="ico">🤝</div><div><h3>Échanges</h3><span class="tag">Argent</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Échange avec les autres joueurs en toute sécurité, ou avec le serveur pour obtenir du stuff haut de gamme.</p>
+          <h4>Entre joueurs</h4>
+          <ul>
+            <li><span class="cmd">/trade &lt;joueur&gt;</span> : les deux valident avant que quoi que ce soit parte</li>
+            <li><span class="cmd">/cf</span> : pile ou face 🪙 mise contre mise, le gagnant ramasse tout</li>
+          </ul>
+          <h4>Avec le serveur</h4>
+          <ul>
+            <li><span class="cmd">/t4</span> et <span class="cmd">/t5</span> : tes fragments contre du stuff haut de gamme</li>
+            <li>Les marchands PNJ de la Map</li>
+          </ul>
+          <p class="astuce">🛑 Un échange fait au sol ne sera jamais remboursé : passe toujours par <span class="cmd">/trade</span>.</p>
+        </article>
+      </div>
+
+      <!-- ===== ACTION ===== -->
+      <div class="bloc-groupe">
+        <div class="titre-groupe"><span>🔫</span><h2>Action</h2></div>
+
+        <article class="fiche" id="bc-braquages" style="--c:var(--mc-2)">
+          <div class="tete"><div class="ico">🏦</div><div><h3>Braquages</h3><span class="tag">Action</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Deux façons de voler sur le serveur : la banque, en équipe et face à la police, ou les appartements, seul et en discrétion.</p>
+          <h4>Les deux braquages</h4>
+          <ul>
+            <li><b>La banque</b> 💥 : foreuse, C4, sacs, et la police en face. <i>À plusieurs.</i> Revends le butin à <b>Arthur</b>.</li>
+            <li><b>Les appartements</b> 🔓 : un crochet, un sac, et tu ressors avant que la police arrive. <i>Tout seul.</i> Revends le butin à <b>Hugo</b>.</li>
+          </ul>
+          <p class="astuce">🚨 Sortir avec du butin = 2 étoiles de recherche, et la police arrive. Tes étoiles : <span class="cmd">/recherche</span></p>
+          <h4>Commandes</h4>
+          <div class="cmds"><span class="cmd">/braquage</span><span class="cmd">/recherche</span></div>
+        </article>
+
+        <article class="fiche" id="bc-ravitaillement" style="--c:var(--mc-c)">
+          <div class="tete"><div class="ico">📦</div><div><h3>Ravitaillement</h3><span class="tag">Action</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Régulièrement, des caisses de ravitaillement tombent du ciel sur la Map. Elles contiennent du matériel qu'on ne peut pas acheter en boutique : sois le premier sur place pour le récupérer !</p>
+          <h4>Bon à savoir</h4>
+          <ul>
+            <li>Les caisses tombent n'importe où sur la Map</li>
+            <li>Leur contenu est introuvable en boutique</li>
+            <li>Tu peux savoir à l'avance quand tombera la prochaine</li>
+          </ul>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/ravitaillement time</span></div>
+        </article>
+
+        <article class="fiche" id="bc-missions" style="--c:var(--mc-3)">
+          <div class="tete"><div class="ico">🎣</div><div><h3>Missions</h3><span class="tag">Action</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Des missions à plusieurs étapes, avec des PNJ à retrouver sur la Map. Un GPS te guide à chaque étape.</p>
+          <h4>Les missions</h4>
+          <ul>
+            <li><b>Le Pêcheur</b> : 8 étapes, des poissons à ramener</li>
+          </ul>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/missions</span></div>
+        </article>
+
+        <article class="fiche" id="bc-quetes" style="--c:var(--mc-6)">
+          <div class="tete"><div class="ico">🏆</div><div><h3>Quêtes</h3><span class="tag">Action</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Des objectifs à accomplir en jouant, chacun avec ses récompenses : <b>argent</b>, <b>cristaux</b>, <b>xp</b>, <b>clefs Farm</b> et <b>clefs Infecté</b>.</p>
+          <h4>Les types de quêtes</h4>
+          <ul>
+            <li>Marcher, jouer, monter de niveau</li>
+            <li>Tuer des mobs et des joueurs</li>
+            <li>Ouvrir les coffres de farm et les caisses</li>
+            <li>Records d'argent et de cristaux</li>
+            <li>Le pass de combat, les séries de kills</li>
+          </ul>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/quest</span></div>
+        </article>
+      </div>
+
+      <!-- ===== PROGRESSION ===== -->
+      <div class="bloc-groupe">
+        <div class="titre-groupe"><span>📈</span><h2>Progression</h2></div>
+
+        <article class="fiche" id="bc-niveaux" style="--c:var(--mc-b)">
+          <div class="tete"><div class="ico">⭐</div><div><h3>Niveaux &amp; pass</h3><span class="tag">Progression</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Tu montes en niveau simplement en jouant. Chaque palier débloque des récompenses, et le pass de combat t'en donne encore plus.</p>
+          <h4>Commandes</h4>
+          <table>
+            <tr><td><span class="cmd">/niveau</span></td><td>Ta progression</td></tr>
+            <tr><td><span class="cmd">/récompenses</span></td><td>Tes récompenses</td></tr>
+            <tr><td><span class="cmd">/pass</span></td><td>Le pass de combat</td></tr>
+            <tr><td><span class="cmd">/boost</span></td><td>Tes boosts en cours</td></tr>
+          </table>
+        </article>
+
+        <article class="fiche" id="bc-grades" style="--c:var(--mc-d)">
+          <div class="tete"><div class="ico">👑</div><div><h3>Grades</h3><span class="tag">Progression</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Ton grade se voit dans le tab et devant ton nom dans le chat. Plus qu'un titre, il te donne des avantages.</p>
+          <h4>Ce qu'il débloque</h4>
+          <ul>
+            <li>Des <b>droits</b> en plus</li>
+            <li>Des <b>kits</b> réservés</li>
+            <li>Des <b>zones réservées</b></li>
+            <li>Un <a href="#bc-stockage"><b>stockage</b></a> plus grand</li>
+          </ul>
+        </article>
+
+        <article class="fiche" id="bc-clans" style="--c:var(--mc-d)">
+          <div class="tete"><div class="ico">🛡️</div><div><h3>Clans</h3><span class="tag">Progression</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Joue avec tes amis : crée ton clan, invite tes potes et gérez tout depuis le menu du clan.</p>
+          <h4>Commandes</h4>
+          <table>
+            <tr><td><span class="cmd">/clan créer</span></td><td>Créer un clan</td></tr>
+            <tr><td><span class="cmd">/clan inviter &lt;joueur&gt;</span></td><td>Inviter un joueur</td></tr>
+            <tr><td><span class="cmd">/clan</span></td><td>Le menu du clan</td></tr>
+          </table>
+        </article>
+
+        <article class="fiche" id="bc-classements" style="--c:var(--mc-e)">
+          <div class="tete"><div class="ico">🥇</div><div><h3>Classements</h3><span class="tag">Progression</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Compare-toi aux autres : kills, argent, niveau, mobs tués, clans, quêtes… Tout le monde peut consulter les classements.</p>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/classement</span></div>
+        </article>
+      </div>
+
+      <!-- ===== TES AFFAIRES ===== -->
+      <div class="bloc-groupe">
+        <div class="titre-groupe"><span>🎒</span><h2>Tes affaires</h2></div>
+
+        <article class="fiche" id="bc-stockage" style="--c:var(--mc-6)">
+          <div class="tete"><div class="ico">🗄️</div><div><h3>Stockage</h3><span class="tag">Tes affaires</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Un coffre rien qu'à toi, que tu retrouves partout sur le serveur.</p>
+          <h4>Comment ça marche</h4>
+          <ul>
+            <li>Sa taille dépend de ton <a href="#bc-grades"><b>grade</b></a></li>
+            <li>Un second coffre s'achète, ligne par ligne, avec <span class="cmd">/stockage vip</span></li>
+          </ul>
+          <h4>Commandes</h4>
+          <div class="cmds"><span class="cmd">/stockage</span><span class="cmd">/stockage vip</span></div>
+        </article>
+
+        <article class="fiche" id="bc-enderchest" style="--c:var(--mc-5)">
+          <div class="tete"><div class="ico">🟪</div><div><h3>Ender Chest</h3><span class="tag">Tes affaires</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Ton coffre perso, accessible au spawn avec la commande ou en ouvrant un bloc d'Ender Chest. Il s'agrandit au fil de tes améliorations.</p>
+          <h4>Comment ça marche</h4>
+          <ul>
+            <li><b>3 lignes</b> au départ</li>
+            <li>Améliore-le jusqu'à <b style="color:var(--mc-d)">6 lignes</b> avec le bouton à côté du coffre</li>
+          </ul>
+          <p class="astuce">📥 Ce que tu avais dans ton ancien Ender Chest y a été rangé.</p>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/ec</span></div>
+        </article>
+
+        <article class="fiche" id="bc-appartements" style="--c:var(--mc-9)">
+          <div class="tete"><div class="ico">🏠</div><div><h3>Appartements</h3><span class="tag">Tes affaires</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Loue ton chez-toi dans l'un des quartiers de la ville. Le GPS t'y emmène, à pied.</p>
+          <h4>Les quartiers</h4>
+          <ul>
+            <li>Les Anglaises</li>
+            <li>Les Woods</li>
+            <li>Le Bronx</li>
+            <li>Les Studios du Hangar</li>
+          </ul>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/appartement</span></div>
+        </article>
+      </div>
+
+      <!-- ===== STYLE ===== -->
+      <div class="bloc-groupe">
+        <div class="titre-groupe"><span>✨</span><h2>Style &amp; réglages</h2></div>
+
+        <article class="fiche" id="bc-cosmetiques" style="--c:var(--mc-d)">
+          <div class="tete"><div class="ico">🎨</div><div><h3>Cosmétiques</h3><span class="tag">Style</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Démarque-toi ! Va voir le <b style="color:var(--mc-d)">marchand de cosmétiques</b> pour acheter des effets visuels, en cristaux ou en argent.</p>
+          <h4>Les cosmétiques</h4>
+          <ul>
+            <li>Finishers de kill (animations sur ta victime)</li>
+            <li>Finishers de mort</li>
+            <li>Traînées sous tes pas</li>
+            <li>Bannières d'élimination</li>
+          </ul>
+          <p class="astuce">🔇 Les effets des autres te gênent ? Masque traînées, finishers, bannières ou leurs sons avec <span class="cmd">/cos parametres</span>.</p>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/cos parametres</span></div>
+        </article>
+
+        <article class="fiche" id="bc-boitecos" style="--c:var(--mc-d)">
+          <div class="tete"><div class="ico">🗝️</div><div><h3>Boîte cosmétique</h3><span class="tag">Style</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Elle te donne un cosmétique au hasard, et <b>jamais un que tu as déjà</b>.</p>
+          <h4>Comment l'utiliser</h4>
+          <ul>
+            <li><b>Clic droit</b> sur la boîte, une <b style="color:var(--mc-d)">Clé Cosmétique</b> en main</li>
+            <li><b>Clic gauche</b> : voir les lots et <b>ta</b> chance pour chacun</li>
+          </ul>
+          <p class="astuce">📣 Les cosmétiques légendaires sont annoncés à tout le serveur.</p>
+        </article>
+
+        <article class="fiche" id="bc-parametres" style="--c:var(--mc-e)">
+          <div class="tete"><div class="ico">⚙️</div><div><h3>Paramètres</h3><span class="tag">Style</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Coupe ce qui te gêne à l'écran ou dans tes oreilles. Ça ne change rien pour les autres joueurs.</p>
+          <h4>Ce que tu peux couper</h4>
+          <ul>
+            <li>Les hologrammes des coffres</li>
+            <li>Les particules des événements</li>
+            <li>Les annonces automatiques, de morts, de niveaux, de ravitaillements…</li>
+            <li>Les sons des mentions et des annonces</li>
+          </ul>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/settings</span></div>
+        </article>
+      </div>
+
+      <!-- ===== COMMUNAUTÉ ===== -->
+      <div class="bloc-groupe">
+        <div class="titre-groupe"><span>💬</span><h2>Communauté &amp; aide</h2></div>
+
+        <article class="fiche" id="bc-staff" style="--c:var(--mc-9)">
+          <div class="tete"><div class="ico">🙋</div><div><h3>Parler au staff</h3><span class="tag">Communauté</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Besoin d'aide ? Ton message arrive aux membres du staff connectés. S'il n'y a personne, il reste dans leur boîte et sera lu plus tard.</p>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/staff &lt;ton message&gt;</span></div>
+        </article>
+
+        <article class="fiche" id="bc-signaler" style="--c:var(--mc-e)">
+          <div class="tete"><div class="ico">🚩</div><div><h3>Signaler un joueur</h3><span class="tag">Communauté</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Un joueur ne respecte pas les <a href="#bc-regles"><b>règles</b></a> ? Signale-le : tu choisis le motif dans un menu, et le staff relit tout, même quand personne n'est connecté.</p>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/report &lt;joueur&gt;</span></div>
+        </article>
+
+        <article class="fiche" id="bc-vote" style="--c:var(--mc-a)">
+          <div class="tete"><div class="ico">🗳️</div><div><h3>Voter</h3><span class="tag">Communauté</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Soutiens le serveur en votant : 3 sites, un vote par jour sur chacun.</p>
+          <h4>Les sites de vote</h4>
+          <ul>
+            <li><a href="https://serveur-prive.net/minecraft/butiicraft/vote" target="_blank" rel="noopener"><b>Serveur-Privé</b> ↗</a></li>
+            <li><a href="https://serveur-minecraft-vote.fr/serveur/2833/butiicraft" target="_blank" rel="noopener"><b>Serveur-Minecraft-Vote</b> ↗</a></li>
+            <li><a href="https://www.serveurs-minecraft.org/vote.php?id=57831" target="_blank" rel="noopener"><b>Serveurs-Minecraft.org</b> ↗</a></li>
+          </ul>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/vote</span></div>
+        </article>
+
+        <article class="fiche" id="bc-site" style="--c:var(--mc-b)">
+          <div class="tete"><div class="ico">🌐</div><div><h3>Site</h3><span class="tag">Communauté</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">La boutique, les votes et les nouvelles du serveur : <a href="https://butiicraft.fr/" target="_blank" rel="noopener"><b style="color:var(--mc-b)">butiicraft.fr</b></a></p>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/site</span></div>
+        </article>
+
+        <article class="fiche" id="bc-discord" style="--c:var(--mc-9)">
+          <div class="tete"><div class="ico">🎧</div><div><h3>Discord</h3><span class="tag">Communauté</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Pour parler avec la communauté, contester une sanction et suivre les mises à jour : <a href="https://discord.gg/kKtGnpwHHz" target="_blank" rel="noopener"><b style="color:var(--mc-9)">discord.gg/kKtGnpwHHz</b></a></p>
+          <h4>Commande</h4>
+          <div class="cmds"><span class="cmd">/discord</span></div>
+        </article>
+
+        <article class="fiche" id="bc-utiles" style="--c:#ffffff">
+          <div class="tete"><div class="ico">🧰</div><div><h3>Commandes utiles</h3><span class="tag">Communauté</span></div></div>
+          <h4>Description</h4>
+          <p class="desc">Les petites commandes du quotidien, à garder sous la main.</p>
+          <h4>Commandes</h4>
+          <table>
+            <tr><td><span class="cmd">/aide</span></td><td>Ce guide, en jeu</td></tr>
+            <tr><td><span class="cmd">/afk</span></td><td>Te mettre absent</td></tr>
+            <tr><td><span class="cmd">/skin</span></td><td>Changer d'apparence</td></tr>
+            <tr><td><span class="cmd">/permis</span></td><td>Ton permis de conduire</td></tr>
+            <tr><td><span class="cmd">/recherche</span></td><td>Tes étoiles de police</td></tr>
+            <tr><td><span class="cmd">/kit</span></td><td>Tes kits</td></tr>
+            <tr><td><span class="cmd">/téléphone</span></td><td>Banque, spawn, stats</td></tr>
+            <tr><td><span class="cmd">/regles</span></td><td>Le règlement</td></tr>
+          </table>
+        </article>
+      </div>
+
+      <!-- ===== RÈGLEMENT ===== -->
+      <div class="bloc-groupe" id="bc-regles" style="scroll-margin-top:20px">
+        <div class="titre-groupe"><span>⚖️</span><h2>Le règlement</h2></div>
+        <p style="margin-bottom:14px">Chaque règle a sa sanction, écrite à l'avance. Clique une règle pour voir le détail. En jeu : <span class="cmd">/regles</span></p>
+        <div class="legende">
+          <span class="pastille g3">🔴 Très grave</span>
+          <span class="pastille g2">🟠 Moyenne</span>
+          <span class="pastille g1">🟡 Légère</span>
+        </div>
+
+        <details class="regle">
+          <summary><span class="e">🤖</span><span class="nom">Triche</span><span class="pastille g3">Très grave</span></summary>
+          <div class="detail">
+            Tout logiciel qui joue à ta place ou te montre ce que tu ne dois pas voir.
+            <ul><li>Fly, speed, no-fall</li><li>Kill aura, aimbot, trigger</li><li>X-ray, radar, freecam</li><li>Clients modifiés</li></ul>
+            <div class="ok"><b>✅ Autorisé :</b> Optifine, les mini-maps sans radar de joueurs, et les mods de confort (HUD, chat).</div>
+            <ol class="echelle unique"><li>Ban définitif, sans négociation. Le double compte est banni aussi.</li></ol>
+          </div>
+        </details>
+
+        <details class="regle">
+          <summary><span class="e">🖱️</span><span class="nom">Macro et auto-clic</span><span class="pastille g3">Très grave</span></summary>
+          <div class="detail">
+            Un programme, une souris ou un clavier qui envoie les clics à ta place.
+            <ul><li>Roulette macro au sniper</li><li>Auto-clic en PvP ou en farm</li><li>Macro de touches, script AHK</li></ul>
+            <p class="petit">Un tir humain ne descend pas sous un certain délai : c'est mesurable, et c'est mesuré.</p>
+            <div class="ok"><b>✅ Autorisé :</b> cliquer vite à la main, quel que soit ton CPS réel.</div>
+            <ol class="echelle"><li>Avertissement + tir bloqué sur le coup</li><li>Ban 7 jours</li><li>Ban définitif</li></ol>
+          </div>
+        </details>
+
+        <details class="regle">
+          <summary><span class="e">🐛</span><span class="nom">Abus de bug</span><span class="pastille g3">Très grave</span></summary>
+          <div class="detail">
+            Profiter d'un défaut du serveur au lieu de le signaler.
+            <ul><li>Dupliquer des objets ou de l'argent</li><li>Passer dans un mur, sortir d'une zone fermée</li><li>Relancer un braquage ou un kit hors des règles prévues</li><li>Rejouer un bug déjà signalé</li></ul>
+            <div class="ok"><b>✅ Autorisé :</b> tomber sur un bug sans le vouloir, et le dire au staff avec <span class="cmd">/staff</span>. C'est récompensé, jamais puni.</div>
+            <ol class="echelle"><li>Retrait de tout ce qui a été gagné + ban 3 jours</li><li>Ban 30 jours, et remise à zéro du compte</li><li>Ban définitif</li></ol>
+          </div>
+        </details>
+
+        <details class="regle">
+          <summary><span class="e">🚫</span><span class="nom">Racisme et discrimination</span><span class="pastille g3">Très grave</span></summary>
+          <div class="detail">
+            Propos racistes, homophobes, sexistes, ou visant une religion, un handicap ou une origine. Aucune tolérance, et le ton de la plaisanterie n'y change rien.
+            <ol class="echelle"><li>Mute 7 jours</li><li>Mute 30 jours</li><li>Ban définitif</li></ol>
+          </div>
+        </details>
+
+        <details class="regle">
+          <summary><span class="e">☠️</span><span class="nom">Menaces et doxxing</span><span class="pastille g3">Très grave</span></summary>
+          <div class="detail">
+            Menacer quelqu'un dans la vraie vie, ou publier ses informations personnelles.
+            <ul><li>Menaces physiques, chantage</li><li>Nom, adresse, photo, numéro</li><li>DDoS, ou menace de DDoS</li></ul>
+            <ol class="echelle unique"><li>Ban définitif, et signalement si nécessaire.</li></ol>
+          </div>
+        </details>
+
+        <details class="regle">
+          <summary><span class="e">😠</span><span class="nom">Harcèlement</span><span class="pastille g2">Moyenne</span></summary>
+          <div class="detail">
+            S'en prendre au même joueur encore et encore : insultes, spawn kill, poursuite, messages privés répétés. Une fois, c'est un conflit. Dix fois, c'est du harcèlement.
+            <div class="ok"><b>✅ Autorisé :</b> le PvP normal, et la rivalité entre clans.</div>
+            <ol class="echelle"><li>Mute 24 h</li><li>Ban 7 jours</li><li>Ban définitif</li></ol>
+          </div>
+        </details>
+
+        <details class="regle">
+          <summary><span class="e">🤬</span><span class="nom">Insultes</span><span class="pastille g2">Moyenne</span></summary>
+          <div class="detail">
+            Insulter un joueur ou le staff, dans le chat public comme en message privé.
+            <div class="ok"><b>✅ Autorisé :</b> le langage familier et les vannes entre joueurs d'accord entre eux.</div>
+            <ol class="echelle"><li>Mute 1 h</li><li>Mute 12 h</li><li>Mute 7 jours, puis ban</li></ol>
+          </div>
+        </details>
+
+        <details class="regle">
+          <summary><span class="e">📢</span><span class="nom">Publicité</span><span class="pastille g2">Moyenne</span></summary>
+          <div class="detail">
+            Faire la promotion d'un autre serveur, d'une chaîne ou d'un lien, dans le chat ou en privé.
+            <div class="ok"><b>✅ Autorisé :</b> partager une vidéo de <b>ton</b> jeu sur <b>ce</b> serveur.</div>
+            <ol class="echelle"><li>Mute 24 h</li><li>Ban 7 jours</li><li>Ban définitif</li></ol>
+          </div>
+        </details>
+
+        <details class="regle">
+          <summary><span class="e">🎭</span><span class="nom">Arnaque</span><span class="pastille g2">Moyenne</span></summary>
+          <div class="detail">
+            Ne pas honorer un échange, se faire passer pour un autre, ou voler un compte.
+            <p class="petit">Utilise <span class="cmd">/trade</span> : un échange fait au sol ne sera pas remboursé.</p>
+            <ol class="echelle"><li>Remboursement + ban 3 jours</li><li>Ban 14 jours</li><li>Ban définitif</li></ol>
+          </div>
+        </details>
+
+        <details class="regle">
+          <summary><span class="e">👥</span><span class="nom">Multi-comptes</span><span class="pastille g2">Moyenne</span></summary>
+          <div class="detail">
+            Un seul compte par personne.
+            <ul><li>Se créer un compte pour contourner un ban</li><li>Se voter ou se donner de l'argent à soi-même</li><li>Occuper deux places en clan</li></ul>
+            <div class="ok"><b>✅ Autorisé :</b> deux joueurs sur la même connexion (frères, sœurs) : préviens le staff avant.</div>
+            <ol class="echelle"><li>Tous les comptes bannis le temps du ban en cours</li><li>Ban définitif de tous les comptes</li></ol>
+          </div>
+        </details>
+
+        <details class="regle">
+          <summary><span class="e">🔁</span><span class="nom">Spam et flood</span><span class="pastille g1">Légère</span></summary>
+          <div class="detail">
+            Répéter le même message, écrire en majuscules, ou noyer le chat.
+            <ul><li>Même message à la suite</li><li>MAJUSCULES sur toute la ligne</li><li>Caractères sans aucun sens</li></ul>
+            <ol class="echelle"><li>Avertissement</li><li>Mute 30 min</li><li>Mute 6 h</li></ol>
+          </div>
+        </details>
+
+        <details class="regle">
+          <summary><span class="e">🐢</span><span class="nom">Faire laguer le serveur</span><span class="pastille g2">Moyenne</span></summary>
+          <div class="detail">
+            Poser volontairement de quoi ralentir tout le monde.
+            <ul><li>Fermes à mobs démesurées</li><li>Machines à redstone en boucle</li><li>Milliers d'objets au sol</li></ul>
+            <p class="petit">Le nettoyage automatique n'est pas une autorisation.</p>
+            <div class="ok"><b>✅ Autorisé :</b> une ferme normale, et une base en redstone raisonnable.</div>
+            <ol class="echelle"><li>Destruction de l'installation + avertissement</li><li>Ban 3 jours</li><li>Ban 30 jours</li></ol>
+          </div>
+        </details>
+
+        <details class="regle">
+          <summary><span class="e">🕵️</span><span class="nom">Se faire passer pour le staff</span><span class="pastille g2">Moyenne</span></summary>
+          <div class="detail">
+            Prétendre être modérateur ou administrateur, réclamer un mot de passe, ou promettre des grades contre quelque chose.
+            <p class="petit">🔐 Le staff ne demande <b>JAMAIS</b> ton mot de passe.</p>
+            <ol class="echelle"><li>Mute 24 h</li><li>Ban 7 jours</li><li>Ban définitif</li></ol>
+          </div>
+        </details>
+
+        <details class="regle">
+          <summary><span class="e">📖</span><span class="nom">Comment lire ces sanctions</span><span class="pastille g1">Info</span></summary>
+          <div class="detail">
+            Les durées affichées sont un repère, pas un tarif.
+            <ul><li>Le staff peut alourdir selon les circonstances</li><li>Les sanctions se cumulent dans le temps</li><li>Avouer tout de suite compte toujours en ta faveur</li></ul>
+            <div class="ok"><b>⚖️ Contester :</b> sur le Discord (<span class="cmd">/discord</span>). Une sanction injustifiée est annulée, et le staff en répond.</div>
+          </div>
+        </details>
+      </div>
+
+      <p class="rien">😕 Rien ne correspond à ta recherche. Essaie un autre mot, ou demande en jeu avec <span class="cmd">/staff</span>.</p>
+    </main>
+  </div>
+
+  <!-- ================= PIED ================= -->
+  <div class="pied">
+    <h2>Une question ? On est là 👋</h2>
+    <p>Rejoins la communauté, vote pour le serveur, et retrouve tout ça en jeu avec /aide.</p>
+    <div class="boutons">
+      <a class="bouton b-discord" href="https://discord.gg/kKtGnpwHHz" target="_blank" rel="noopener">💬 Rejoindre le Discord</a>
+      <a class="bouton b-vote" href="#bc-vote">🗳️ Voter</a>
+      <a class="bouton b-site" href="https://butiicraft.fr/" target="_blank" rel="noopener">🌐 butiicraft.fr</a>
+    </div>
+  </div>
+  <p class="fin">ButiiCraft · Wiki du /aide · ✨ Clique une commande pour la copier</p>
+</div>
+
+<script>
+/* Facultatif : recherche en direct + copie d'une commande au clic. */
+(function(){
+  var w = document.getElementById('bc-wiki'); if(!w) return;
+  w.classList.add('js');
+  var sans = function(s){ return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); };
+  var mobile = function(){ return window.matchMedia && window.matchMedia('(max-width:860px)').matches; };
+
+  // sur téléphone, la liste des catégories démarre repliée ; sur ordinateur, elle ne se replie pas
+  var menu = w.querySelector('.menu');
+  if(mobile()) menu.open = false;
+  menu.querySelector('summary').addEventListener('click', function(e){ if(!mobile()) e.preventDefault(); });
+  // sur téléphone, choisir une catégorie replie la liste
+  menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ if(mobile()) menu.open = false; }); });
+
+  // copie d'une commande
+  w.querySelectorAll('.cmd').forEach(function(c){
+    c.title = 'Clique pour copier';
+    c.addEventListener('click', function(e){
+      e.preventDefault(); e.stopPropagation();
+      var t = c.textContent.replace(/\s*<.*$/,'').trim();
+      var fini = function(){ c.classList.add('copie'); setTimeout(function(){ c.classList.remove('copie'); }, 900); };
+      if(navigator.clipboard){ navigator.clipboard.writeText(t).then(fini, fini); } else { fini(); }
+    });
+  });
+
+  // recherche : filtre les fiches, les règles et la liste des catégories
+  var champ = w.querySelector('.recherche'), rien = w.querySelector('.rien');
+  var fiches = w.querySelectorAll('.fiche, .regle');
+  champ.addEventListener('input', function(){
+    var q = sans(champ.value.trim()), vus = 0;
+    fiches.forEach(function(f){
+      var ok = !q || sans(f.textContent).indexOf(q) !== -1;
+      f.classList.toggle('cache', !ok); if(ok) vus++;
+      if(f.tagName === 'DETAILS') f.open = !!q && ok;
+      if(f.id){ var l = menu.querySelector('a[href="#'+f.id+'"]'); if(l) l.classList.toggle('cache', !ok); }
+    });
+    w.querySelectorAll('.bloc-groupe').forEach(function(g){
+      g.classList.toggle('cache', !!q && !g.querySelector('.fiche:not(.cache), .regle:not(.cache)'));
+    });
+    menu.querySelector('a.regl').classList.toggle('cache', !!q && !w.querySelector('.regle:not(.cache)'));
+    menu.querySelectorAll('.groupe').forEach(function(g){
+      var n = g.nextElementSibling, vis = false;
+      while(n && !n.classList.contains('groupe')){ if(!n.classList.contains('cache')) vis = true; n = n.nextElementSibling; }
+      g.classList.toggle('cache', !vis);
+    });
+    rien.style.display = vus ? 'none' : 'block';
+  });
+})();
+</script>
